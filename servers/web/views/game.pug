@@ -1,0 +1,30 @@
+extends layout.pug
+include game/player
+
+block content
+  if game.state === 'pending' && (viewerPlayerId === game.player1id || viewerPlayerId === game.player2id)
+    p(class='lead') Rules: #{rules.join(', ')}.
+
+  h2 Game ##{game.id} - #{game.state}
+    |
+    if game.state === 'final'
+      |
+      if game.playerWinnerId
+        |  - player ##{game.playerWinnerId} won
+      else
+        |  - tie
+
+  table(class='table')
+    thead
+      tr
+        th(scope='col') Player
+        th(scope='col') Choice
+    tbody
+      if game.player1id
+        +player(game.id, game.state, game.playerWinnerId, game.player1id, game.player1choice, viewerPlayerId)
+      if game.player2id
+        +player(game.id, game.state, game.playerWinnerId, game.player2id, game.player2choice, viewerPlayerId)
+
+  if !game.player2id && viewerPlayerId !== game.player1id
+    form(method='POST' action='/games/' + game.id + '/join')
+      button.btn.btn-lg.btn-secondary.float-right(type='submit') Join

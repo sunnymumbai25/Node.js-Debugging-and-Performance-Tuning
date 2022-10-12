@@ -1,0 +1,18 @@
+mixin choice(playerId, selection, gameId, viewerPlayerId, gameState)
+  if gameState === 'pending' && playerId !== viewerPlayerId
+    button.btn.btn-secondary.btn-sm(disabled) Hidden
+  else if selection === 'rock'
+    span ⛰️
+  else if selection === 'paper'
+    span 📝
+  else if selection === 'scissors'
+    span ✂️
+  else if playerId === viewerPlayerId
+    form(method='POST' action='/games/' + gameId + '/choice')
+      button.btn.btn-primary.btn-sm(type='submit',name='choice',value='rock') Rock
+      | &#32;
+      button.btn.btn-primary.btn-sm(type='submit',name='choice',value='paper') Paper
+      | &#32;
+      button.btn.btn-primary.btn-sm(type='submit',name='choice',value='scissors') Scissors
+  else
+    button.btn.btn-secondary.btn-sm(disabled) Pending

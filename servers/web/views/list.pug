@@ -1,0 +1,15 @@
+mixin list(games)
+  div.list-group
+    each game in games
+      - const classes = [ 'list-group-item', 'list-group-item-action', 'flex-column', 'align-items-start' ];
+      - if (game.state === 'final') { classes.push('list-group-item-dark'); }
+      a(class=classes, href='/games/' + game.id)
+        div.d-flex.w-100.justify-content-between
+          h5.mb1 Game ##{game.id}
+          small
+            | #{game.state}
+            if (game.playerWinnerId)
+              |  - ##{game.playerWinnerId} won!
+            else if (game.state === 'final')
+              |  - Tied
+        p.mb1 #{game.player1id ? '#' + game.player1id : 'TBD'} vs. #{game.player2id ? '#' + game.player2id : 'TBD'}

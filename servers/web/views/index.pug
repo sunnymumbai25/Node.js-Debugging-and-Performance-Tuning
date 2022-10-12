@@ -1,0 +1,18 @@
+extends layout.pug
+include list
+
+block content
+  if final.length > 0
+    div.final
+      h2 Finished Games
+      +list(final)
+
+  div.pending
+    h2 Available Games
+    if pending.length > 0
+      +list(pending)
+    else
+      p None... yet!
+
+  form(method='POST' action='/games')
+    button.btn.btn-lg.btn-secondary.float-right(type='submit') Start new
